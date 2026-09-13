@@ -2,25 +2,25 @@
 
 Application web de panier d'épicerie conçue pour Azure : le panier de chaque visiteur est conservé dans un cache distribué Redis, l'application est instrumentée avec OpenTelemetry et une Azure Function réagit à l'ajout de fichiers dans un compte de stockage.
 
-> Réalisé dans le cadre de l'examen final du cours *Déploiement sur l'infonuagique* – AEC Développement d'applications sécuritaires, Cégep de Limoilou (2026).
+> Projet réalisé dans le cours *Déploiement sur l'infonuagique* – AEC Développement d'applications sécuritaires, Cégep de Limoilou (2026).
 
 ## Architecture
 
 ```
-Navigateur ──► Cloud.ExamenFinal.MVC ──► Azure Cache for Redis (panier par session)
+Navigateur ──► PanierEpicerie.MVC ──► Azure Cache for Redis (panier par session)
                      │
                      └──► Application Insights (OpenTelemetry)
 
-Blob Storage (conteneur « examenfinal »)
+Blob Storage (conteneur « fichiers »)
       │  BlobTrigger
       ▼
-AzureFunction.ExamenFinal ──► Azure Service Bus (file « ExamenFinal »)
+PanierEpicerie.Functions ──► Azure Service Bus (file « fichiers-ajoutes »)
 ```
 
 | Projet | Rôle |
 |---|---|
-| `Cloud.ExamenFinal.MVC` | Application MVC : affichage et ajout d'articles au panier |
-| `AzureFunction.ExamenFinal` | Azure Function (isolated) `TraiterFichier` : déclenchée par l'ajout d'un blob, elle publie un message dans Service Bus |
+| `PanierEpicerie.MVC` | Application MVC : affichage et ajout d'articles au panier |
+| `PanierEpicerie.Functions` | Azure Function (isolated) `TraiterFichier` : déclenchée par l'ajout d'un blob, elle publie un message dans Service Bus |
 
 ## Points techniques
 
@@ -43,7 +43,7 @@ Prérequis : .NET 8 SDK, Docker et Azure Functions Core Tools.
 
 ```bash
 docker run -d -p 6379:6379 redis
-cd Cloud.ExamenFinal.MVC
+cd PanierEpicerie.MVC
 dotnet user-secrets init
 dotnet user-secrets set "AzureMonitor:ConnectionString" "<chaîne Application Insights>"
 dotnet run
@@ -54,7 +54,7 @@ L'intégration Azure Monitor exige une chaîne de connexion Application Insights
 **Azure Function**
 
 ```bash
-cd AzureFunction.ExamenFinal
+cd PanierEpicerie.Functions
 cp local.settings.example.json local.settings.json   # puis renseigner les chaînes de connexion
 func start
 ```
@@ -62,6 +62,6 @@ func start
 **Image Docker**
 
 ```bash
-cd Cloud.ExamenFinal.MVC
+cd PanierEpicerie.MVC
 docker build -t panier-epicerie .
 ```

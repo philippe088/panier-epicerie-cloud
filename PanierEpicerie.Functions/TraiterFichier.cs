@@ -1,7 +1,7 @@
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Extensions.Logging;
 
-namespace AzureFunction.ExamenFinal
+namespace PanierEpicerie.Functions
 {
     public class TraiterFichier
     {
@@ -13,9 +13,9 @@ namespace AzureFunction.ExamenFinal
         }
 
         [Function("TraiterFichier")]
-        [ServiceBusOutput("ExamenFinal", Connection = "ServiceBusConnection")]
+        [ServiceBusOutput("fichiers-ajoutes", Connection = "ServiceBusConnection")]
         public string Run(
-            [BlobTrigger("examenfinal/{name}", Connection = "AzureWebJobsStorage")] Stream blobStream,
+            [BlobTrigger("fichiers/{name}", Connection = "AzureWebJobsStorage")] Stream blobStream,
             string name)
         {
             _logger.LogInformation("Début du traitement du fichier: {FileName}", name);
@@ -27,7 +27,7 @@ namespace AzureFunction.ExamenFinal
 
                 _logger.LogInformation(message);
 
-                _logger.LogInformation("Message envoyé dans la file Service Bus 'ExamenFinal'");
+                _logger.LogInformation("Message envoyé dans la file Service Bus 'fichiers-ajoutes'");
 
                 return message;
             }

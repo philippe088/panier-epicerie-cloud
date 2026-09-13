@@ -1,10 +1,10 @@
-﻿using Cloud.ExamenFinal.MVC.Models;
+﻿using PanierEpicerie.MVC.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Distributed;
 using System.Diagnostics;
 using System.Text.Json;
 
-namespace Cloud.ExamenFinal.MVC.Controllers
+namespace PanierEpicerie.MVC.Controllers
 {
     public class HomeController : Controller
     {

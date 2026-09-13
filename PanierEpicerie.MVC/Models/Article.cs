@@ -1,7 +1,7 @@
 ﻿
 using System.ComponentModel.DataAnnotations;
 
-namespace Cloud.ExamenFinal.MVC.Models
+namespace PanierEpicerie.MVC.Models
 {
     public class Article
     {
