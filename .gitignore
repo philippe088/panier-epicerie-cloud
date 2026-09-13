@@ -483,6 +483,7 @@ $RECYCLE.BIN/
 # Vim temporary swap files
 *.swp
 *.md
+!README.md
 *.txt
 
 # --- Ajouts : secrets et données locales ---
