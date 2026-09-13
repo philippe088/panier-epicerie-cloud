@@ -1,0 +1,50 @@
+﻿@model IEnumerable<Cloud.ExamenFinal.MVC.Models.Article>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>Mon panier d'épicerie</h2>
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success">@TempData["Success"]</div>
+}
+@if (TempData["Warning"] != null)
+{
+    <div class="alert alert-warning">@TempData["Warning"]</div>
+}
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger">@TempData["Error"]</div>
+}
+
+<p>
+    <a asp-action="Ajouter" class="btn btn-primary">Ajouter un article dans le panier</a>
+</p>
+
+@if (Model != null && Model.Any())
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Article</th>
+            </tr>
+        </thead>
+        <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => item.Nom)</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+    <p><strong>Total: @Model.Count() article(s) dans le panier</strong></p>
+}
+else
+{
+    <div class="alert alert-info">
+        <p>@(ViewBag.Message ?? "Votre panier est vide")</p>
+    </div>
+}
